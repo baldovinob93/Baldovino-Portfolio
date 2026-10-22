@@ -24,7 +24,8 @@ for (const page of pages) {
       if (!ids.has(value.slice(1))) errors.push(`${page}: missing #${value.slice(1)}`);
       continue;
     }
-    const [pathname, fragment] = value.split('#');
+    const [pathWithQuery, fragment] = value.split('#');
+    const pathname = pathWithQuery.split('?')[0];
     if (!pathname.startsWith(base)) { errors.push(`${page}: path outside base ${value}`); continue; }
     let target = path.join(dist, pathname.slice(base.length));
     try { if ((await stat(target)).isDirectory()) target = path.join(target, 'index.html'); await stat(target); }
