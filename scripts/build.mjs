@@ -28,6 +28,8 @@ function icon(name, size = 18) {
     github: '<path d="M9 19c-4 1.3-4-2-6-2m12 4v-3.2a2.8 2.8 0 0 0-.8-2.2c2.7-.3 5.6-1.3 5.6-6A4.7 4.7 0 0 0 18.5 6a4.3 4.3 0 0 0-.1-3s-1 0-3 1.6a10.3 10.3 0 0 0-5.6 0C7.8 3 6.8 3 6.8 3a4.3 4.3 0 0 0-.1 3A4.7 4.7 0 0 0 5.4 9.6c0 4.7 2.9 5.7 5.6 6a2.8 2.8 0 0 0-.8 2.2V21"/>',
     linkedin: '<path d="M4 9v11M4 4v.1M9 20v-11h4v1.5c.7-1.1 1.7-1.7 3.2-1.7 2.5 0 3.8 1.5 3.8 4.4V20h-4v-5.1c0-1.3-.3-2.2-1.5-2.2-1.1 0-1.5.8-1.5 2.2V20z"/>',
     mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+    whatsapp: '<path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.4-4.7A8.5 8.5 0 1 1 20.5 11.7Z"/><path d="M8.7 7.8c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.8 1.9c.1.3.1.5-.1.7l-.6.8c-.2.2-.2.4-.1.6.5 1 1.3 1.8 2.3 2.4.2.1.4.1.6-.1l.9-1c.2-.2.4-.2.7-.1l1.8.9c.3.1.4.3.4.5v.5c0 .3-.1.6-.4.8-.5.4-1.2.7-2 .7-1.6 0-3.7-1-5.3-2.6S7.1 10 7.3 8.8c.1-.4.3-.7.5-1Z"/>',
+    instagram: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor" stroke="none"/>',
     code: '<path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-14-2 18"/>',
     layers: '<path d="m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5"/>',
     database: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
@@ -102,7 +104,89 @@ function home() {
     <section class="section about-section" id="sobre-mi"><div class="shell about-grid"><div class="about-copy reveal"><p class="eyebrow">SOBRE MÍ</p><h2>Desarrollo aplicaciones<br>que generan <em>valor.</em></h2><p>Soy desarrollador Full Stack .NET, con foco en crear soluciones web modernas, funcionales y bien diseñadas.</p><p>Me interesa transformar ideas en productos reales que las personas puedan usar y que realmente funcionen.</p></div><div class="tech-illustration reveal" aria-hidden="true"><div class="tech-glow"></div><div class="server server--one"></div><div class="server server--two"></div><div class="code-panel"><div class="code-panel__bar"><i></i><i></i><i></i><span>solution.cs</span></div><div class="code-lines"><b>public class Solution</b><span>{</span><i>  var idea = new Product();</i><i>  idea.Design();</i><i>  idea.Build();</i><i>  idea.Ship();</i><span>}</span></div></div><div class="tech-platform"></div></div><ul class="capabilities">${capabilities.map(([glyph, title, detail]) => `<li><span class="cap-icon">${icon(glyph, 20)}</span><span><strong>${esc(title)}</strong><small>${esc(detail)}</small></span></li>`).join('')}</ul></div></section>
     <section class="section featured-section" id="destacado"><div class="shell featured-grid"><div class="featured-copy reveal"><p class="eyebrow">PROYECTO DESTACADO</p><h2>${esc(featured.name)}</h2><p class="featured-lead">${esc(featured.summary)}</p><p>${esc(featured.description)}</p><div class="button-row">${button('Ver proyecto', projectUrl(featured))}${button('Ver código', safeUrl(featured.githubUrl), 'outline', 'github')}</div>${tags(featured.stack.slice(0, 6))}</div><div class="featured-visual reveal">${deviceComposition(featured, 'device-composition--featured')}</div></div></section>
     <section class="section journey-section"><div class="shell"><p class="eyebrow">DE LA IDEA A LA OPERACIÓN</p><div class="journey-head"><h2>Un recorrido completo</h2><p>Desde descubrir un producto hasta administrarlo, todo en una misma plataforma.</p></div><div class="journey-steps">${steps}</div><div class="journey-preview"><div><span class="journey-index">01 <span>Inicio</span></span><h3>Moda urbana, en cualquier pantalla</h3><p>Una experiencia visual moderna y responsive que transmite la identidad de la marca desde el primer momento.</p><a class="button button--outline" href="${projectUrl(featured)}">Ver el caso completo ${icon('arrow', 16)}</a></div><div class="journey-preview__screen">${image(featured.hero.desktop, 'Portada de N|B Indumentary en escritorio')}</div></div></div></section>
-    <section class="section contact-section" id="contacto"><div class="shell"><div class="contact-card"><div class="contact-light" aria-hidden="true"></div><p class="eyebrow">CONTACTO</p><h2>Construyamos algo<br><em>que genere valor.</em></h2><p>Si querés conversar sobre un proyecto, este espacio está listo para conectarnos.</p>${site.links.email ? button('Hablemos', site.links.email) : ''}</div></div></section>`;
+    <section class="section contact-section" id="contacto">
+  <div class="shell">
+    <div class="contact-card">
+      <div class="contact-light" aria-hidden="true"></div>
+
+      <p class="eyebrow">CONTACTO</p>
+
+      <h2>
+        Construyamos algo<br>
+        <em>que genere valor.</em>
+      </h2>
+
+      <p>
+        Si querés conversar sobre un proyecto, este espacio está listo para conectarnos.
+      </p>
+
+      <div class="contact-options">
+
+        <a
+          class="contact-option"
+          href="${esc(site.links.email)}"
+          aria-label="Enviar email a Brian Baldovino"
+        >
+          <span class="contact-option__icon">
+            ${icon('mail', 26)}
+          </span>
+
+          <span class="contact-option__content">
+            <strong>Email</strong>
+            <small>Enviame un mensaje</small>
+          </span>
+
+          <span class="contact-option__arrow">
+            ${icon('arrow', 19)}
+          </span>
+        </a>
+
+        <a
+          class="contact-option"
+          href="${esc(safeUrl(site.links.whatsapp))}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Contactar por WhatsApp"
+        >
+          <span class="contact-option__icon">
+            ${icon('whatsapp', 27)}
+          </span>
+
+          <span class="contact-option__content">
+            <strong>WhatsApp</strong>
+            <small>Hablemos directamente</small>
+          </span>
+
+          <span class="contact-option__arrow">
+            ${icon('arrow', 19)}
+          </span>
+        </a>
+
+        <a
+          class="contact-option"
+          href="${esc(safeUrl(site.links.instagram))}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver Instagram de Brian Baldovino"
+        >
+          <span class="contact-option__icon">
+            ${icon('instagram', 27)}
+          </span>
+
+          <span class="contact-option__content">
+            <strong>Instagram</strong>
+            <small>Seguime en mi perfil</small>
+          </span>
+
+          <span class="contact-option__arrow">
+            ${icon('arrow', 19)}
+          </span>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>`;
   return page({ title: `${site.name} | Full Stack .NET Developer`, description: site.description, content, onHome: true });
 }
 

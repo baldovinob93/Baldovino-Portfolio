@@ -5,10 +5,12 @@ export const site = {
   description: 'Portfolio de desarrollo Full Stack .NET con proyectos web modernos, escalables y orientados a resolver problemas reales.',
   url: null,
   links: {
-    github: 'https://github.com/baldovinob93',
-    linkedin: 'https://www.linkedin.com/in/brian-baldovino-791b993b9',
-    email: 'mailto:baldovinob93@gmail.com'
-  }
+  github: 'https://github.com/baldovinob93',
+  linkedin: 'https://www.linkedin.com/in/brian-baldovino-791b993b9',
+  email: 'mailto:baldovinob93@gmail.com',
+  whatsapp: 'https://wa.me/5491172703555',
+  instagram: 'https://www.instagram.com/brian_baldovino/'
+}
 };
 
 const nib = '/assets/nib/';
