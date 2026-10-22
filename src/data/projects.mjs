@@ -27,7 +27,7 @@ export const projects = [
     stack: ['ASP.NET Core MVC', 'Razor', 'Entity Framework Core', 'SQL Server', 'JavaScript', 'Bootstrap', 'Mercado Pago', 'Responsive'],
     hero: { desktop: `${nib}home-desktop.webp`, mobile: `${nib}home-mobile.webp` },
     demoUrl: null,
-    githubUrl: null,
+    githubUrl: 'https://github.com/baldovinob93/NB-Indumentary',
     featured: true,
     sections: [
       {
