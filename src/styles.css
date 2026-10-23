@@ -381,9 +381,11 @@ a.button:hover {
 
 .hero {
   position: relative;
+  isolation: isolate;
   min-height: 704px;
   padding-top: 74px;
   overflow: hidden;
+  background: #030b1b;
 }
 
 .hero-grid {
@@ -391,7 +393,7 @@ a.button:hover {
   z-index: 2;
   min-height: 630px;
   display: grid;
-  grid-template-columns: .88fr 1.12fr;
+  grid-template-columns: minmax(0, 45%) 1fr;
   align-items: center;
   gap: 20px;
 }
@@ -420,46 +422,38 @@ a.button:hover {
   min-width: 144px;
 }
 
-.hero-visual {
-  position: relative;
-  align-self: stretch;
-  display: grid;
-  place-items: center;
-  min-width: 0;
-}
-
-.planet {
+.hero-showcase,
+.case-showcase {
   position: absolute;
+  inset: 0;
   z-index: 0;
-  width: 860px;
-  height: 860px;
-  right: -235px;
-  top: -550px;
-  border-radius: 50%;
-  border: 2px solid rgba(74, 145, 255, .75);
-  background: radial-gradient(circle at 40% 60%, rgba(4, 22, 59, .8), rgba(1, 8, 25, .97) 67%);
-  box-shadow: -10px 14px 22px rgba(31, 132, 255, .36), -40px 35px 92px rgba(34, 99, 225, .2), inset -35px -20px 38px rgba(35, 115, 220, .18);
-  transform: rotate(-18deg);
+  overflow: hidden;
+  background: #030b1b;
+  pointer-events: none;
 }
 
-.planet::before {
+.hero-showcase__image {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  object-position: 88% center;
+}
+
+.hero-showcase::after,
+.case-showcase::after {
   content: "";
   position: absolute;
-  inset: -5px;
-  border-radius: inherit;
-  border-bottom: 5px solid rgba(65, 159, 255, .55);
-  filter: blur(6px);
+  inset: 0;
+  background: linear-gradient(90deg, rgba(2, 8, 21, .98) 0%, rgba(2, 8, 21, .91) 24%, rgba(2, 8, 21, .48) 42%, transparent 66%);
 }
 
-.hero-horizon {
-  position: absolute;
-  z-index: 0;
-  bottom: -45px;
-  width: 100%;
-  height: 184px;
-  opacity: .54;
-  background: radial-gradient(ellipse at 65% 100%, #176bc9, transparent 46%), linear-gradient(177deg, transparent 32%, rgba(5, 27, 61, .8) 48%, #020814 90%);
-  clip-path: polygon(0 80%, 15% 76%, 29% 64%, 40% 70%, 55% 48%, 66% 58%, 77% 36%, 100% 49%, 100% 100%, 0 100%);
+@media (min-width: 801px) and (max-width: 1200px) {
+  .hero-showcase::after,
+  .case-showcase::after {
+    background: linear-gradient(90deg, rgba(2, 8, 21, .99) 0%, rgba(2, 8, 21, .95) 29%, rgba(2, 8, 21, .82) 42%, rgba(2, 8, 21, .28) 59%, transparent 74%);
+  }
 }
 
 .device-composition {
@@ -1248,29 +1242,32 @@ a.button:hover {
 
 .case-hero {
   position: relative;
+  isolation: isolate;
   padding: 120px 0 76px;
   overflow: hidden;
-  background: radial-gradient(ellipse at 78% 55%, rgba(19, 75, 153, .24), transparent 49%), linear-gradient(125deg, #040b19, #061429 70%, #030916);
+  background: #030b1b;
 }
 
 .case-hero-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  grid-template-columns: minmax(0, 45%) 1fr;
   align-items: center;
-  gap: clamp(28px, 4vw, 68px);
+  gap: 0;
   min-height: 510px;
 }
 
-.case-hero-copy, .case-hero-visual {
+.case-hero-copy {
   position: relative;
   min-width: 0;
-  z-index: 1;
+  z-index: 2;
 }
 
 .case-hero h1 {
   display: flex;
   flex-direction: column;
-  font-size: clamp(3.6rem, 6vw, 6.6rem);
+  font-size: clamp(2.6rem, 5.2vw, 5.4rem);
   letter-spacing: -.066em;
   line-height: .99;
   margin: 0 0 24px;
@@ -1282,7 +1279,7 @@ a.button:hover {
 
 .case-hero h1 span:last-child {
   color: #dbe8ff;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .case-hero p:not(.eyebrow) {
@@ -1336,51 +1333,6 @@ a.button:hover {
 .case-hero .button-row .button {
   min-height: 52px;
   padding-inline: 25px;
-}
-
-.case-hero-visual {
-  display: grid;
-  align-items: center;
-  min-height: 490px;
-}
-
-.case-hero-visual::before {
-  content: "";
-  position: absolute;
-  inset: 13% -10% 2% 1%;
-  border: 1px solid rgba(60, 135, 243, .16);
-  border-radius: 50%;
-  transform: rotate(-18deg);
-  box-shadow: 0 0 70px rgba(27, 100, 198, .1);
-}
-
-.device-composition--case {
-  width: 100%;
-  height: 460px;
-}
-
-.device-composition--case .orbit {
-  opacity: .3;
-}
-
-.device-composition--case .laptop {
-  width: 92%;
-  left: 0;
-  top: 15%;
-  transform: rotateY(-5deg) rotateX(2deg) rotateZ(-1deg);
-}
-
-.device-composition--case .laptop__screen {
-  border-color: rgba(111, 169, 250, .75);
-  box-shadow: 0 0 0 2px rgba(16, 26, 42, .95), 0 0 38px rgba(37, 131, 255, .22), inset 0 1px #aecbff;
-}
-
-.device-composition--case .phone {
-  right: 0;
-  bottom: 3%;
-  width: 20%;
-  transform: rotate(2deg);
-  box-shadow: 0 0 22px rgba(48, 125, 244, .3), 13px 20px 28px rgba(0, 0, 0, .7);
 }
 
 .back-link {
@@ -1701,11 +1653,13 @@ a.button:hover {
 
   .hero {
     padding-top: 66px;
+    min-height: 0;
+    padding-bottom: clamp(360px, 74vw, 570px);
   }
 
   .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 0;
+    display: block;
+    min-height: 0;
     padding-top: 55px;
   }
 
@@ -1717,20 +1671,31 @@ a.button:hover {
     font-size: clamp(2.9rem, 8.1vw, 4.8rem);
   }
 
-  .hero-visual {
-    min-height: 390px;
-  }
-
   .device-composition {
     width: min(100%, 660px);
     height: 375px;
   }
 
-  .planet {
-    width: 600px;
-    height: 600px;
-    top: 260px;
-    right: -300px;
+  .hero-showcase,
+  .case-showcase {
+    background: linear-gradient(180deg, #030b1b, #04142e 72%, #030b1b);
+  }
+
+  .hero-showcase__image {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: clamp(620px, 185vw, 1130px);
+    height: auto;
+    object-fit: contain;
+    object-position: right bottom;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 15%);
+    mask-image: linear-gradient(to bottom, transparent, #000 15%);
+  }
+
+  .hero-showcase::after,
+  .case-showcase::after {
+    background: linear-gradient(180deg, #030b1b 0%, rgba(3, 11, 27, .94) 30%, rgba(3, 11, 27, .45) 45%, transparent 65%);
   }
 
   .section-heading {
@@ -1785,21 +1750,13 @@ a.button:hover {
 
   .case-hero {
     padding-top: 110px;
+    min-height: 0;
+    padding-bottom: clamp(360px, 74vw, 570px);
   }
 
   .case-hero-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .case-hero-visual {
-    width: min(100%, 700px);
-    min-height: 410px;
-    margin-inline: auto;
-  }
-
-  .device-composition--case {
-    height: 405px;
+    display: block;
+    min-height: 0;
   }
 
   .case-nav {
@@ -1845,9 +1802,8 @@ a.button:hover {
     letter-spacing: .17em;
     margin-bottom: 14px;
   }
-
   .hero {
-    min-height: 0;
+    min-height: 880px;
   }
 
   .hero-grid {
@@ -1886,11 +1842,6 @@ a.button:hover {
     min-width: 0;
   }
 
-  .hero-visual {
-    min-height: 260px;
-    margin: 9px -18px 0;
-  }
-
   .device-composition {
     height: 260px;
     width: 100%;
@@ -1926,18 +1877,6 @@ a.button:hover {
   .phone__notch {
     height: 5px;
     top: 2px;
-  }
-
-  .planet {
-    width: 420px;
-    height: 420px;
-    top: 240px;
-    right: -280px;
-  }
-
-  .hero-horizon {
-    height: 105px;
-    bottom: -28px;
   }
 
   .section-heading {
@@ -2116,7 +2055,7 @@ a.button:hover {
   }
 
   .case-hero {
-    padding: 100px 0 48px;
+    padding: 100px 0 clamp(360px, 74vw, 570px);
   }
 
   .back-link {
@@ -2124,7 +2063,7 @@ a.button:hover {
   }
 
   .case-hero h1 {
-    font-size: clamp(3rem, 11vw, 4.8rem);
+    font-size: clamp(2.55rem, 9.6vw, 4.8rem);
   }
 
   .case-hero p:not(.eyebrow) {
@@ -2150,24 +2089,6 @@ a.button:hover {
     flex: 1 1 145px;
     min-width: 0;
     padding-inline: 12px;
-  }
-
-  .case-hero-visual {
-    min-height: 0;
-    aspect-ratio: 1.45;
-    margin-top: 8px;
-  }
-
-  .device-composition--case {
-    height: 100%;
-  }
-
-  .device-composition--case .laptop {
-    top: 15%;
-  }
-
-  .device-composition--case .phone {
-    bottom: 4%;
   }
 
   .case-nav__inner {
@@ -2275,10 +2196,6 @@ a.button:hover {
 
   .hero-copy h1 {
     font-size: 2.28rem;
-  }
-
-  .hero-visual {
-    margin-inline: -15px;
   }
 
   .device-composition {
