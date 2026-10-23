@@ -26,6 +26,7 @@ export const projects = [
     description: 'Una tienda online responsive que integra catálogo, variantes, carrito, checkout, pagos, seguimiento de pedidos y administración desde una misma plataforma.',
     stack: ['ASP.NET Core MVC', 'Razor', 'Entity Framework Core', 'SQL Server', 'JavaScript', 'Bootstrap', 'Mercado Pago', 'Responsive'],
     hero: { desktop: `${nib}home-desktop.webp`, mobile: `${nib}home-mobile.webp` },
+    heroStack: ['.NET 10', 'ASP.NET Core MVC', 'SQL Server', 'Bootstrap 5', 'Mercado Pago', 'EF Core'],
     demoUrl: null,
     githubUrl: 'https://github.com/baldovinob93/NB-Indumentary',
     featured: true,
