@@ -64,20 +64,23 @@ function header(onHome = false) {
     safeUrl(site.links.github) && `<a class="icon-link" href="${esc(site.links.github)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">${icon('github', 19)}</a>`,
     safeUrl(site.links.linkedin) && `<a class="icon-link" href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">${icon('linkedin', 19)}</a>`
   ].filter(Boolean).join('');
+  const mobileSocial = [
+    safeUrl(site.links.github) && `<a href="${esc(site.links.github)}" target="_blank" rel="noopener noreferrer">${icon('github', 18)} GitHub</a>`,
+    safeUrl(site.links.linkedin) && `<a href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">${icon('linkedin', 18)} LinkedIn</a>`
+  ].filter(Boolean).join('');
   return `<header class="site-header" id="top"><div class="shell header-inner">
     <a class="brand" href="${route()}" aria-label="Baldovino, ir al inicio"><span class="brand-mark">B<span></span></span><span>Baldovino</span></a>
     <nav class="desktop-nav" aria-label="Navegación principal">${nav}</nav>
     <div class="header-actions">${social}<a class="button button--header" href="${onHome ? '#contacto' : `${route()}#contacto`}">Hablemos ${icon('arrow', 15)}</a></div>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">${icon('menu', 23)}</button>
-  </div><nav class="mobile-menu" id="mobile-menu" aria-label="Navegación móvil" hidden>${nav}<a class="mobile-menu__cta" href="${onHome ? '#contacto' : `${route()}#contacto`}">Hablemos ${icon('arrow', 16)}</a></nav></header>`;
+  </div><nav class="mobile-menu" id="mobile-menu" aria-label="Navegación móvil" hidden>${nav}${mobileSocial ? `<div class="mobile-menu__social">${mobileSocial}</div>` : ''}<a class="mobile-menu__cta" href="${onHome ? '#contacto' : `${route()}#contacto`}">Hablemos ${icon('arrow', 16)}</a></nav></header>`;
 }
 
 function footer() {
   const footerLinks = [
-    ['GitHub', safeUrl(site.links.github)], ['LinkedIn', safeUrl(site.links.linkedin)],
-    ['Email', site.links.email && /^mailto:[^\s]+$/i.test(site.links.email) ? site.links.email : null]
+    ['GitHub', safeUrl(site.links.github)], ['LinkedIn', safeUrl(site.links.linkedin)]
   ].filter(([, href]) => href).map(([label, href]) => `<a href="${esc(href)}"${href.startsWith('https://') ? ' target="_blank" rel="noopener noreferrer"' : ''}>${label}</a>`).join('');
-  return `<footer class="footer"><div class="shell footer-grid${footerLinks ? '' : ' footer-grid--no-social'}"><div><a class="brand" href="${route()}"><span class="brand-mark">B<span></span></span><span>Baldovino</span></a><p>${esc(site.role)}</p></div><nav aria-label="Navegación del pie"><a href="${route()}#inicio">Inicio</a><a href="${route()}#sobre-mi">Sobre mí</a><a href="${route()}#proyectos">Proyectos</a><a href="${route()}#contacto">Contacto</a></nav>${footerLinks ? `<div class="footer-social">${footerLinks}</div>` : ''}</div><div class="shell footer-bottom"><span>© <span id="year">${new Date().getFullYear()}</span> Baldovino</span><span>Diseñado y desarrollado con foco en producto.</span></div></footer>`;
+  return `<footer class="footer"><div class="shell footer-grid${footerLinks ? '' : ' footer-grid--no-social'}"><div><a class="brand" href="${route()}"><span class="brand-mark">B<span></span></span><span>Baldovino</span></a><p>${esc(site.role)}</p></div><nav aria-label="Navegación del pie"><a href="${route()}#inicio">Inicio</a><a href="${route()}#sobre-mi">Sobre mí</a><a href="${route()}#proyectos">Proyectos</a><a href="${route()}#contacto">Contacto</a></nav>${footerLinks ? `<div class="footer-social">${footerLinks}</div>` : ''}</div><div class="shell footer-bottom"><span>© <span id="year">${new Date().getFullYear()}</span> Baldovino</span></div></footer>`;
 }
 
 function page({ title, description, content, currentPath = '', onHome = false, ogImage }) {
@@ -87,107 +90,45 @@ function page({ title, description, content, currentPath = '', onHome = false, o
   return `<!doctype html><html lang="es-AR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#050b19"><meta name="color-scheme" content="dark"><title>${esc(title)}</title><meta name="description" content="${esc(description)}">${metaUrl}<meta property="og:type" content="website"><meta property="og:locale" content="es_AR"><meta property="og:site_name" content="Baldovino"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:image" content="${esc(socialImage)}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${esc(socialImage)}"><link rel="icon" type="image/svg+xml" href="${route('favicon.svg')}"><link rel="stylesheet" href="${route('styles.css')}?v=${assetVersion}"><script src="${route('main.js')}?v=${assetVersion}" defer></script></head><body><a class="skip-link" href="#main">Saltar al contenido</a>${header(onHome)}<main id="main">${content}</main>${footer()}</body></html>`;
 }
 
-function deviceComposition(project, className = '') {
-  return `<div class="device-composition ${className}" aria-label="Vistas de N|B Indumentary en escritorio y móvil"><div class="orbit orbit--one"></div><div class="orbit orbit--two"></div><div class="laptop"><div class="laptop__screen">${image(project.hero.desktop, 'Inicio de N|B Indumentary en escritorio', '', true)}</div><div class="laptop__base"></div></div><div class="phone"><div class="phone__notch"></div>${image(project.hero.mobile, 'Inicio de N|B Indumentary en móvil')}</div></div>`;
+function finalCta(forCase = false) {
+  const contactHref = forCase ? `${route()}#contacto` : '#contacto';
+  return `<section class="section final-cta${forCase ? ' case-final-cta' : ''}"><div class="shell final-cta__grid"><div class="final-cta__copy reveal"><p class="eyebrow">${forCase ? 'HABLEMOS DE TU IDEA' : 'DISPONIBLE PARA NUEVOS DESAFÍOS'}</p><h2>${forCase ? '¿Querés construir algo así?' : '¿Tenés una idea en mente?'}</h2><p>${forCase ? 'Estoy disponible para conversar sobre proyectos, colaboraciones y oportunidades laborales.' : 'Ya sea un proyecto, una colaboración o una oportunidad laboral, estoy listo para conversar.'}</p>${buttonRow(button('Contactame', contactHref), button('Ver mi LinkedIn', safeUrl(site.links.linkedin), 'outline'))}</div><div class="final-cta__art" aria-hidden="true"><div class="final-cta__orbit"></div><div class="final-cta__planet"><span>&lt;/&gt;</span></div></div></div></section>`;
 }
 
 function home() {
-  const featured = projects.find(project => project.featured) || projects[0];
-  const cards = projects.map(project => `<article class="project-card project-card--real"><div class="project-card__image">${image(project.hero.desktop, `${project.name}: vista principal del proyecto`)}</div><div class="project-card__content"><div class="card-top">${project.mark ? `<span class="nib-wordmark">${esc(project.mark)}${project.markCaption ? `<small>${esc(project.markCaption)}</small>` : ''}</span>` : ''}${project.featured ? '<span class="badge">Proyecto destacado</span>' : ''}</div><h3>${esc(project.name)}</h3><p>${esc(project.summary)}</p>${tags(project.stack.slice(0, 4))}<a class="button button--primary" href="${projectUrl(project)}">Ver proyecto ${icon('arrow', 16)}</a></div></article>`).join('');
+  const cards = projects.map(project => {
+    const category = project.slug === 'nib-indumentary' ? 'E-Commerce' : project.eyebrow || 'Proyecto';
+    const summary = project.slug === 'nib-indumentary'
+      ? 'Tienda online de indumentaria con una experiencia completa de compra, pagos y administración.'
+      : project.summary;
+    return `<article class="project-card project-card--real"><a class="project-card__image" href="${projectUrl(project)}" aria-label="Ver ${esc(project.name)}">${image(project.hero.desktop, `${project.name}: vista principal del proyecto`)}</a><div class="project-card__content"><span class="project-card__category">${esc(category)}</span><h3>${esc(project.name)}</h3><p>${esc(summary)}</p>${tags(project.stack.slice(0, 4))}<div class="project-card__actions">${button('Ver proyecto', projectUrl(project), 'outline')}</div></div></article>`;
+  }).join('');
   const capabilities = [
-    ['code', '.NET', 'Desarrollo Web'], ['database', 'Bases de datos', 'Diseño y optimización'],
-    ['layers', 'Interfaces modernas', 'Enfoque en UX/UI'], ['spark', 'Soluciones reales', 'Desde la idea al producto']
+    ['layers', 'Proyectos reales', 'Trabajo aplicado'],
+    ['code', 'Tecnologías modernas', 'Stack actual'],
+    ['database', 'Soluciones escalables', 'Arquitectura clara'],
+    ['spark', 'Enfoque en producto', 'Experiencia útil']
   ];
-  const steps = featured.sections.slice(1, 10).map(section => `<a href="${projectUrl(featured)}#paso-${section.number}" class="journey-step"><strong>${section.number}</strong><span>${esc(section.label)}</span></a>`).join('');
+  const technologies = [
+    ['C#', 'C#', 'csharp'], ['.NET', '.NET', 'dotnet'], ['ASP.NET Core', 'ASP', 'aspnet'],
+    ['Entity Framework Core', 'EF', 'ef'], ['SQL Server', 'SQL', 'sql'], ['JavaScript', 'JS', 'javascript'],
+    ['Bootstrap', 'B5', 'bootstrap'], ['Git', 'Git', 'git'], ['GitHub', icon('github', 31), 'github']
+  ];
+  const techTiles = technologies.map(([label, mark, name]) => `<li class="tech-tile tech-tile--${name}"><span class="tech-tile__glyph" aria-hidden="true">${name === 'github' ? mark : esc(mark)}</span><span class="tech-tile__label">${esc(label)}</span></li>`).join('');
+  const emailLink = /^mailto:([^?\s]+)$/i.exec(site.links.email || '');
+  const emailAddress = emailLink?.[1];
+  const contactMethods = [
+    emailAddress && `<article class="contact-method contact-method--email"><span class="contact-method__icon" aria-hidden="true">${icon('mail', 25)}</span><h3>Email</h3><p class="contact-method__detail">${esc(emailAddress)}</p><p class="contact-method__caption">Enviame un mensaje</p><div class="contact-method__actions">${button('Escribir', site.links.email)}<button class="button button--outline contact-method__copy" type="button" data-copy-email="${esc(emailAddress)}">Copiar</button><span class="copy-status" data-copy-status role="status" aria-live="polite"></span></div></article>`,
+    safeUrl(site.links.whatsapp) && `<article class="contact-method contact-method--whatsapp"><span class="contact-method__icon" aria-hidden="true">${icon('whatsapp', 26)}</span><h3>WhatsApp</h3><p class="contact-method__detail">Hablemos directamente</p><p class="contact-method__caption">Respuesta rápida</p><div class="contact-method__actions">${button('Abrir WhatsApp', safeUrl(site.links.whatsapp), 'primary')}</div></article>`,
+    safeUrl(site.links.linkedin) && `<article class="contact-method contact-method--linkedin"><span class="contact-method__icon" aria-hidden="true">${icon('linkedin', 26)}</span><h3>LinkedIn</h3><p class="contact-method__detail">Conectemos</p><p class="contact-method__caption">Oportunidades y networking</p><div class="contact-method__actions">${button('Ver perfil', safeUrl(site.links.linkedin), 'primary')}</div></article>`,
+    safeUrl(site.links.instagram) && `<article class="contact-method contact-method--instagram"><span class="contact-method__icon" aria-hidden="true">${icon('instagram', 26)}</span><h3>Instagram</h3><p class="contact-method__detail">Seguime</p><p class="contact-method__caption">Contenido y perfil personal</p><div class="contact-method__actions">${button('Ver Instagram', safeUrl(site.links.instagram), 'primary')}</div></article>`
+  ].filter(Boolean).join('');
   const content = `
-    <section class="hero atmosphere" id="inicio"><div class="hero-showcase">${image('/assets/nib/nib-showcase.png', 'N|B Indumentary en notebook y celular', 'hero-showcase__image', true)}</div><div class="shell hero-grid"><div class="hero-copy reveal"><p class="eyebrow">DESARROLLADOR FULL STACK .NET</p><h1>Construyendo<br>soluciones web<br><em>reales.</em></h1><p class="lead">Aplicaciones modernas, escalables y enfocadas en resolver problemas del mundo real.</p><div class="button-row">${button('Ver proyectos', '#proyectos', 'primary', 'down')}${button('Sobre mí', '#sobre-mi', 'outline')}</div></div></div></section>
-    <section class="section projects-section" id="proyectos"><div class="shell"><div class="section-heading"><div><p class="eyebrow">PROYECTOS</p><h2>Proyectos que<br>convierten ideas en <em>realidades</em></h2><p>Aplicaciones web pensadas para ser funcionales, escalables y con una experiencia de usuario de alto nivel.</p></div><a class="text-link" href="${projectUrl(featured)}">Explorar el proyecto ${icon('arrow', 17)}</a></div><div class="projects-grid" data-project-count="${projects.length}">${cards}</div></div></section>
-    <section class="section about-section" id="sobre-mi"><div class="shell about-grid"><div class="about-copy reveal"><p class="eyebrow">SOBRE MÍ</p><h2>Desarrollo aplicaciones<br>que generan <em>valor.</em></h2><p>Soy desarrollador Full Stack .NET, con foco en crear soluciones web modernas, funcionales y bien diseñadas.</p><p>Me interesa transformar ideas en productos reales que las personas puedan usar y que realmente funcionen.</p></div><div class="tech-illustration reveal" aria-hidden="true"><div class="tech-glow"></div><div class="server server--one"></div><div class="server server--two"></div><div class="code-panel"><div class="code-panel__bar"><i></i><i></i><i></i><span>solution.cs</span></div><div class="code-lines"><b>public class Solution</b><span>{</span><i>  var idea = new Product();</i><i>  idea.Design();</i><i>  idea.Build();</i><i>  idea.Ship();</i><span>}</span></div></div><div class="tech-platform"></div></div><ul class="capabilities">${capabilities.map(([glyph, title, detail]) => `<li><span class="cap-icon">${icon(glyph, 20)}</span><span><strong>${esc(title)}</strong><small>${esc(detail)}</small></span></li>`).join('')}</ul></div></section>
-    <section class="section featured-section" id="destacado"><div class="shell featured-grid"><div class="featured-copy reveal"><p class="eyebrow">PROYECTO DESTACADO</p><h2>${esc(featured.name)}</h2><p class="featured-lead">${esc(featured.summary)}</p><p>${esc(featured.description)}</p><div class="button-row">${button('Ver proyecto', projectUrl(featured))}${button('Ver código', safeUrl(featured.githubUrl), 'outline', 'github')}</div>${tags(featured.stack.slice(0, 6))}</div><div class="featured-visual reveal">${deviceComposition(featured, 'device-composition--featured')}</div></div></section>
-    <section class="section journey-section"><div class="shell"><p class="eyebrow">DE LA IDEA A LA OPERACIÓN</p><div class="journey-head"><h2>Un recorrido completo</h2><p>Desde descubrir un producto hasta administrarlo, todo en una misma plataforma.</p></div><div class="journey-steps">${steps}</div><div class="journey-preview"><div><span class="journey-index">01 <span>Inicio</span></span><h3>Moda urbana, en cualquier pantalla</h3><p>Una experiencia visual moderna y responsive que transmite la identidad de la marca desde el primer momento.</p><a class="button button--outline" href="${projectUrl(featured)}">Ver el caso completo ${icon('arrow', 16)}</a></div><div class="journey-preview__screen">${image(featured.hero.desktop, 'Portada de N|B Indumentary en escritorio')}</div></div></div></section>
-    <section class="section contact-section" id="contacto">
-  <div class="shell">
-    <div class="contact-card">
-      <div class="contact-light" aria-hidden="true"></div>
-
-      <p class="eyebrow">CONTACTO</p>
-
-      <h2>
-        Construyamos algo<br>
-        <em>que genere valor.</em>
-      </h2>
-
-      <p>
-        Si querés conversar sobre un proyecto, este espacio está listo para conectarnos.
-      </p>
-
-      <div class="contact-options">
-
-        <a
-          class="contact-option"
-          href="${esc(site.links.email)}"
-          aria-label="Enviar email a Brian Baldovino"
-        >
-          <span class="contact-option__icon">
-            ${icon('mail', 26)}
-          </span>
-
-          <span class="contact-option__content">
-            <strong>Email</strong>
-            <small>Enviame un mensaje</small>
-          </span>
-
-          <span class="contact-option__arrow">
-            ${icon('arrow', 19)}
-          </span>
-        </a>
-
-        <a
-          class="contact-option"
-          href="${esc(safeUrl(site.links.whatsapp))}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Contactar por WhatsApp"
-        >
-          <span class="contact-option__icon">
-            ${icon('whatsapp', 27)}
-          </span>
-
-          <span class="contact-option__content">
-            <strong>WhatsApp</strong>
-            <small>Hablemos directamente</small>
-          </span>
-
-          <span class="contact-option__arrow">
-            ${icon('arrow', 19)}
-          </span>
-        </a>
-
-        <a
-          class="contact-option"
-          href="${esc(safeUrl(site.links.instagram))}"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Ver Instagram de Brian Baldovino"
-        >
-          <span class="contact-option__icon">
-            ${icon('instagram', 27)}
-          </span>
-
-          <span class="contact-option__content">
-            <strong>Instagram</strong>
-            <small>Seguime en mi perfil</small>
-          </span>
-
-          <span class="contact-option__arrow">
-            ${icon('arrow', 19)}
-          </span>
-        </a>
-
-      </div>
-    </div>
-  </div>
-</section>`;
+    <section class="hero atmosphere" id="inicio"><div class="hero-showcase">${image('/assets/nib/nib-showcase.png', 'N|B Indumentary en notebook y celular', 'hero-showcase__image', true)}</div><div class="shell hero-grid"><div class="hero-copy reveal"><p class="eyebrow">DESARROLLADOR FULL STACK .NET</p><h1>Construyendo<br>soluciones<br>web <em>reales.</em></h1><p class="lead">Aplicaciones modernas, escalables y enfocadas en resolver problemas del mundo real.</p>${buttonRow(button('Ver proyectos', '#proyectos'), button('Contactame', '#contacto', 'outline'))}</div></div><div class="shell hero-highlights"><ul>${capabilities.map(([glyph, title, detail]) => `<li class="highlight-item"><span class="highlight-item__icon" aria-hidden="true">${icon(glyph, 21)}</span><span><strong>${esc(title)}</strong><small>${esc(detail)}</small></span></li>`).join('')}</ul></div></section>
+    <section class="section projects-section" id="proyectos"><div class="shell"><div class="section-heading"><div><p class="eyebrow">PROYECTOS DESTACADOS</p><h2>Aplicaciones reales, con impacto en el mundo real.</h2></div></div><div class="projects-grid" data-project-count="${projects.length}">${cards}</div></div></section>
+    <section class="section about-section" id="sobre-mi"><div class="shell about-grid"><div class="about-copy reveal"><p class="eyebrow">SOBRE MÍ</p><h2>Desarrollo soluciones<br>que generan <em>valor.</em></h2><p>Soy desarrollador Full Stack .NET, con foco en crear soluciones web modernas, funcionales y bien diseñadas.</p><p>Me interesa transformar ideas en productos reales que las personas puedan usar y que realmente funcionen.</p></div><ul class="tech-stack reveal" aria-label="Tecnologías utilizadas">${techTiles}</ul></div></section>
+    <section class="section contact-section" id="contacto"><div class="shell"><div class="contact-heading reveal"><p class="eyebrow">CONTACTO</p><h2>Construyamos algo<br>que genere <em>valor.</em></h2><p>¿Tenés un proyecto, una propuesta o una oportunidad laboral?<br>Podés escribirme por el canal que te resulte más cómodo.</p></div><div class="contact-methods">${contactMethods}</div></div></section>
+    ${finalCta()}`;
   return page({ title: `${site.name} | Full Stack .NET Developer`, description: site.description, content, onHome: true });
 }
 
@@ -199,16 +140,25 @@ function caseMedia(section) {
 }
 
 function caseStudy(project) {
-  const caseTitle = project.slug === 'nib-indumentary' ? '<span>N|B</span><span>Indumentary</span>' : esc(project.name);
-  const heroBadges = project.heroStack ? `<ul class="case-hero-badges" aria-label="Tecnologías principales">${project.heroStack.map(item => `<li>${esc(item)}</li>`).join('')}</ul>` : tags(project.stack);
-  const heroDescription = project.slug === 'nib-indumentary'
+  const isNib = project.slug === 'nib-indumentary';
+  const caseTitle = isNib ? '<span>N|B</span><span>Indumentary</span>' : esc(project.name);
+  const heroBadges = project.heroStack
+    ? `<ul class="case-hero-badges" aria-label="Tecnologías principales">${project.heroStack.map(item => `<li>${esc(item)}</li>`).join('')}</ul>`
+    : tags(project.stack);
+  const heroDescription = isNib
     ? 'E-commerce de indumentaria desarrollado con ASP.NET Core MVC, con una experiencia completa de compra y gestión.'
     : project.summary;
   const heroActions = buttonRow(
     button('Ver proyecto', '#paso-01'),
     button('Ver código', safeUrl(project.githubUrl), 'outline', 'github')
   );
-  const content = `<section class="case-hero atmosphere"><div class="case-showcase">${image('/assets/nib/nib-showcase.png', 'N|B Indumentary en notebook y celular', 'hero-showcase__image', true)}</div><div class="shell case-hero-grid"><div class="case-hero-copy"><a class="back-link" href="${route()}#proyectos">← Volver a proyectos</a><p class="eyebrow">E-COMMERCE DE INDUMENTARIA</p><h1>${caseTitle}</h1><p class="lead">${esc(heroDescription)}</p>${heroBadges}${heroActions}</div></div></section><nav class="case-nav" aria-label="Etapas del proyecto"><div class="shell case-nav__inner">${project.sections.map(section => `<a href="#paso-${section.number}"><span>${section.number}</span>${esc(section.label)}</a>`).join('')}</div></nav>${project.sections.map((section, index) => `<section class="case-section ${index % 2 ? 'case-section--reverse' : ''} ${!section.media.length ? 'case-section--closing' : ''}" id="paso-${section.number}"><div class="shell case-grid"><div class="case-copy reveal"><span class="case-number">${section.number}</span><p class="eyebrow">${esc(section.label)}</p><h2>${esc(section.title)}</h2><p>${esc(section.description)}</p>${index === project.sections.length - 1 ? `${tags(project.stack)}${projectActions(project)}` : ''}</div>${caseMedia(section)}</div></section>`).join('')}`;
+  const heroVisual = isNib ? '/assets/nib/nib-showcase.png' : project.hero.desktop;
+  const heroAlt = isNib ? 'N|B Indumentary en notebook y celular' : `${project.name}: vista principal`;
+  const content = `
+    <section class="case-hero atmosphere"><div class="case-showcase">${image(heroVisual, heroAlt, 'hero-showcase__image', true)}</div><div class="shell case-hero-grid"><div class="case-hero-copy"><a class="back-link" href="${route()}#proyectos">← Volver a proyectos</a><p class="eyebrow">${isNib ? 'E-COMMERCE DE INDUMENTARIA' : esc(project.eyebrow || 'PROYECTO')}</p><h1>${caseTitle}</h1><p class="lead">${esc(heroDescription)}</p>${heroBadges}${heroActions}</div></div></section>
+    <nav class="case-nav" aria-label="Etapas del proyecto"><div class="shell case-nav__inner">${project.sections.map(section => `<a href="#paso-${section.number}"><span>${section.number}</span>${esc(section.label)}</a>`).join('')}</div></nav>
+    ${project.sections.map((section, index) => `<section class="case-section ${index % 2 ? 'case-section--reverse' : ''} ${!section.media.length ? 'case-section--closing' : ''}" id="paso-${section.number}"><div class="shell case-grid"><div class="case-copy reveal"><span class="case-number">${section.number}</span><p class="eyebrow">${esc(section.label)}</p><h2>${esc(section.title)}</h2><p>${esc(section.description)}</p>${index === project.sections.length - 1 ? `${tags(project.stack)}${projectActions(project)}` : ''}</div>${caseMedia(section)}</div></section>`).join('')}
+    ${finalCta(true)}`;
   return page({ title: `${project.name} | Caso de estudio · Baldovino`, description: project.summary, content, currentPath: `projects/${project.slug}/`, ogImage: project.hero.desktop });
 }
 
