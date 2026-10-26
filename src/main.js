@@ -41,56 +41,6 @@ addEventListener('scroll', updateHeader, { passive: true });
 
 document.getElementById('year')?.replaceChildren(String(new Date().getFullYear()));
 
-function copyWithSelection(value, focusTarget) {
-  if (typeof document.execCommand !== 'function') return false;
-  const field = document.createElement('textarea');
-  field.value = value;
-  field.setAttribute('readonly', '');
-  field.style.cssText = 'position:fixed;left:0;top:0;opacity:0;pointer-events:none';
-  document.body.append(field);
-  field.select();
-  try {
-    return document.execCommand('copy');
-  } catch {
-    return false;
-  } finally {
-    field.remove();
-    focusTarget.focus({ preventScroll: true });
-  }
-}
-
-document.querySelectorAll('[data-copy-email]').forEach(button => {
-  const originalContent = button.innerHTML;
-  const status = button.parentElement?.querySelector('[data-copy-status]')
-    || document.querySelector('[data-copy-status]');
-  let feedbackTimer;
-
-  button.addEventListener('click', async () => {
-    const email = button.getAttribute('data-copy-email')?.trim();
-    let copied = false;
-    if (email) {
-      try {
-        if (navigator.clipboard?.writeText) {
-          await navigator.clipboard.writeText(email);
-          copied = true;
-        } else {
-          copied = copyWithSelection(email, button);
-        }
-      } catch {
-        copied = copyWithSelection(email, button);
-      }
-    }
-
-    clearTimeout(feedbackTimer);
-    button.textContent = copied ? 'Copiado ✓' : 'No se pudo copiar';
-    if (status) status.textContent = copied ? 'Email copiado al portapapeles.' : 'No se pudo copiar el email.';
-    feedbackTimer = setTimeout(() => {
-      button.innerHTML = originalContent;
-      if (status) status.textContent = '';
-    }, 2600);
-  });
-});
-
 const revealed = document.querySelectorAll('.reveal');
 if ('IntersectionObserver' in window) {
   const observer = new IntersectionObserver(entries => {

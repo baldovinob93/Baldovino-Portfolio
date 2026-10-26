@@ -64,16 +64,12 @@ function header(onHome = false) {
     safeUrl(site.links.github) && `<a class="icon-link" href="${esc(site.links.github)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">${icon('github', 19)}</a>`,
     safeUrl(site.links.linkedin) && `<a class="icon-link" href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">${icon('linkedin', 19)}</a>`
   ].filter(Boolean).join('');
-  const mobileSocial = [
-    safeUrl(site.links.github) && `<a href="${esc(site.links.github)}" target="_blank" rel="noopener noreferrer">${icon('github', 18)} GitHub</a>`,
-    safeUrl(site.links.linkedin) && `<a href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">${icon('linkedin', 18)} LinkedIn</a>`
-  ].filter(Boolean).join('');
   return `<header class="site-header" id="top"><div class="shell header-inner">
     <a class="brand" href="${route()}" aria-label="Baldovino, ir al inicio"><span class="brand-mark">B<span></span></span><span>Baldovino</span></a>
     <nav class="desktop-nav" aria-label="Navegación principal">${nav}</nav>
     <div class="header-actions">${social}<a class="button button--header" href="${onHome ? '#contacto' : `${route()}#contacto`}">Hablemos ${icon('arrow', 15)}</a></div>
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">${icon('menu', 23)}</button>
-  </div><nav class="mobile-menu" id="mobile-menu" aria-label="Navegación móvil" hidden>${nav}${mobileSocial ? `<div class="mobile-menu__social">${mobileSocial}</div>` : ''}<a class="mobile-menu__cta" href="${onHome ? '#contacto' : `${route()}#contacto`}">Hablemos ${icon('arrow', 16)}</a></nav></header>`;
+    <div class="header-mobile-actions"><div class="mobile-social">${social}</div><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú">${icon('menu', 23)}</button></div>
+  </div><nav class="mobile-menu" id="mobile-menu" aria-label="Navegación móvil" hidden>${nav}<a class="mobile-menu__cta" href="${onHome ? '#contacto' : `${route()}#contacto`}">Hablemos ${icon('arrow', 16)}</a></nav></header>`;
 }
 
 function footer() {
@@ -93,6 +89,19 @@ function page({ title, description, content, currentPath = '', onHome = false, o
 function finalCta(forCase = false) {
   const contactHref = forCase ? `${route()}#contacto` : '#contacto';
   return `<section class="section final-cta${forCase ? ' case-final-cta' : ''}"><div class="shell final-cta__grid"><div class="final-cta__copy reveal"><p class="eyebrow">${forCase ? 'HABLEMOS DE TU IDEA' : 'DISPONIBLE PARA NUEVOS DESAFÍOS'}</p><h2>${forCase ? '¿Querés construir algo así?' : '¿Tenés una idea en mente?'}</h2><p>${forCase ? 'Estoy disponible para conversar sobre proyectos, colaboraciones y oportunidades laborales.' : 'Ya sea un proyecto, una colaboración o una oportunidad laboral, estoy listo para conversar.'}</p>${buttonRow(button('Contactame', contactHref), button('Ver mi LinkedIn', safeUrl(site.links.linkedin), 'outline'))}</div><div class="final-cta__art" aria-hidden="true"><div class="final-cta__orbit"></div><div class="final-cta__planet"><span>&lt;/&gt;</span></div></div></div></section>`;
+}
+
+function homeContact() {
+  const email = site.links.email && /^mailto:[^\s]+$/i.test(site.links.email) ? site.links.email : null;
+  const links = [
+    ['Email', 'Enviame un mensaje', email, 'mail'],
+    ['WhatsApp', 'Hablemos directamente', safeUrl(site.links.whatsapp), 'whatsapp'],
+    ['Instagram', 'Seguime', safeUrl(site.links.instagram), 'instagram']
+  ];
+  const cards = links.filter(([, , href]) => href).map(([title, description, href, glyph]) =>
+    `<a class="contact-cta__link contact-cta__link--${glyph}" href="${esc(href)}"${href.startsWith('https://') ? ' target="_blank" rel="noopener noreferrer"' : ''}><span class="contact-cta__icon" aria-hidden="true">${icon(glyph, 21)}</span><span class="contact-cta__label"><strong>${esc(title)}</strong><small>${esc(description)}</small></span><span class="contact-cta__arrow" aria-hidden="true">${icon('arrow', 18)}</span></a>`
+  ).join('');
+  return `<section class="section final-cta contact-cta" id="contacto" aria-labelledby="contacto-title"><div class="shell final-cta__grid"><div class="final-cta__copy reveal"><p class="eyebrow">DISPONIBLE PARA NUEVOS DESAFÍOS</p><h2 id="contacto-title">¿Tenés una idea en mente?</h2><p>Ya sea un proyecto, una colaboración o una oportunidad laboral, estoy listo para conversar.</p><div class="contact-cta__links">${cards}</div></div><div class="final-cta__art" aria-hidden="true"><div class="final-cta__orbit"></div><div class="final-cta__planet"><span>&lt;/&gt;</span></div></div></div></section>`;
 }
 
 function home() {
@@ -115,20 +124,11 @@ function home() {
     ['Bootstrap', 'B5', 'bootstrap'], ['Git', 'Git', 'git'], ['GitHub', icon('github', 31), 'github']
   ];
   const techTiles = technologies.map(([label, mark, name]) => `<li class="tech-tile tech-tile--${name}"><span class="tech-tile__glyph" aria-hidden="true">${name === 'github' ? mark : esc(mark)}</span><span class="tech-tile__label">${esc(label)}</span></li>`).join('');
-  const emailLink = /^mailto:([^?\s]+)$/i.exec(site.links.email || '');
-  const emailAddress = emailLink?.[1];
-  const contactMethods = [
-    emailAddress && `<article class="contact-method contact-method--email"><span class="contact-method__icon" aria-hidden="true">${icon('mail', 25)}</span><h3>Email</h3><p class="contact-method__detail">${esc(emailAddress)}</p><p class="contact-method__caption">Enviame un mensaje</p><div class="contact-method__actions">${button('Escribir', site.links.email)}<button class="button button--outline contact-method__copy" type="button" data-copy-email="${esc(emailAddress)}">Copiar</button><span class="copy-status" data-copy-status role="status" aria-live="polite"></span></div></article>`,
-    safeUrl(site.links.whatsapp) && `<article class="contact-method contact-method--whatsapp"><span class="contact-method__icon" aria-hidden="true">${icon('whatsapp', 26)}</span><h3>WhatsApp</h3><p class="contact-method__detail">Hablemos directamente</p><p class="contact-method__caption">Respuesta rápida</p><div class="contact-method__actions">${button('Abrir WhatsApp', safeUrl(site.links.whatsapp), 'primary')}</div></article>`,
-    safeUrl(site.links.linkedin) && `<article class="contact-method contact-method--linkedin"><span class="contact-method__icon" aria-hidden="true">${icon('linkedin', 26)}</span><h3>LinkedIn</h3><p class="contact-method__detail">Conectemos</p><p class="contact-method__caption">Oportunidades y networking</p><div class="contact-method__actions">${button('Ver perfil', safeUrl(site.links.linkedin), 'primary')}</div></article>`,
-    safeUrl(site.links.instagram) && `<article class="contact-method contact-method--instagram"><span class="contact-method__icon" aria-hidden="true">${icon('instagram', 26)}</span><h3>Instagram</h3><p class="contact-method__detail">Seguime</p><p class="contact-method__caption">Contenido y perfil personal</p><div class="contact-method__actions">${button('Ver Instagram', safeUrl(site.links.instagram), 'primary')}</div></article>`
-  ].filter(Boolean).join('');
   const content = `
     <section class="hero atmosphere" id="inicio"><div class="hero-showcase">${image('/assets/nib/nib-showcase.png', 'N|B Indumentary en notebook y celular', 'hero-showcase__image', true)}</div><div class="shell hero-grid"><div class="hero-copy reveal"><p class="eyebrow">DESARROLLADOR FULL STACK .NET</p><h1>Construyendo<br>soluciones<br>web <em>reales.</em></h1><p class="lead">Aplicaciones modernas, escalables y enfocadas en resolver problemas del mundo real.</p>${buttonRow(button('Ver proyectos', '#proyectos'), button('Contactame', '#contacto', 'outline'))}</div></div><div class="shell hero-highlights"><ul>${capabilities.map(([glyph, title, detail]) => `<li class="highlight-item"><span class="highlight-item__icon" aria-hidden="true">${icon(glyph, 21)}</span><span><strong>${esc(title)}</strong><small>${esc(detail)}</small></span></li>`).join('')}</ul></div></section>
     <section class="section projects-section" id="proyectos"><div class="shell"><div class="section-heading"><div><p class="eyebrow">PROYECTOS DESTACADOS</p><h2>Aplicaciones reales, con impacto en el mundo real.</h2></div></div><div class="projects-grid" data-project-count="${projects.length}">${cards}</div></div></section>
     <section class="section about-section" id="sobre-mi"><div class="shell about-grid"><div class="about-copy reveal"><p class="eyebrow">SOBRE MÍ</p><h2>Desarrollo soluciones<br>que generan <em>valor.</em></h2><p>Soy desarrollador Full Stack .NET, con foco en crear soluciones web modernas, funcionales y bien diseñadas.</p><p>Me interesa transformar ideas en productos reales que las personas puedan usar y que realmente funcionen.</p></div><ul class="tech-stack reveal" aria-label="Tecnologías utilizadas">${techTiles}</ul></div></section>
-    <section class="section contact-section" id="contacto"><div class="shell"><div class="contact-heading reveal"><p class="eyebrow">CONTACTO</p><h2>Construyamos algo<br>que genere <em>valor.</em></h2><p>¿Tenés un proyecto, una propuesta o una oportunidad laboral?<br>Podés escribirme por el canal que te resulte más cómodo.</p></div><div class="contact-methods">${contactMethods}</div></div></section>
-    ${finalCta()}`;
+    ${homeContact()}`;
   return page({ title: `${site.name} | Full Stack .NET Developer`, description: site.description, content, onHome: true });
 }
 

@@ -356,7 +356,7 @@ a.button:hover {
   font-size: .8rem;
 }
 
-.menu-toggle, .mobile-menu {
+.header-mobile-actions, .menu-toggle, .mobile-menu {
   display: none;
 }
 
@@ -674,8 +674,8 @@ a.button:hover {
 .tech-stack {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  max-width: 520px;
+  gap: 10px;
+  max-width: 480px;
   width: 100%;
   justify-self: end;
   margin: 0;
@@ -688,146 +688,41 @@ a.button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   min-width: 0;
-  min-height: 103px;
-  padding: 12px 8px;
-  border: 1px solid rgba(87, 151, 242, .26);
-  border-radius: 13px;
-  background: linear-gradient(148deg, rgba(16, 38, 74, .8), rgba(5, 17, 37, .75));
-  box-shadow: inset 0 1px rgba(157, 195, 255, .08);
+  min-height: 84px;
+  padding: 9px 8px;
+  border: 1px solid rgba(87, 151, 242, .2);
+  border-radius: 11px;
+  background: linear-gradient(148deg, rgba(14, 31, 58, .62), rgba(5, 16, 34, .56));
   color: #e5efff;
   text-align: center;
+  transition: transform .2s ease, border-color .2s ease;
+}
+
+.tech-tile:hover {
+  transform: translateY(-2px);
+  border-color: rgba(95, 166, 255, .42);
 }
 
 .tech-tile__glyph {
   color: #77b7ff;
-  font-size: clamp(1.1rem, 1.65vw, 1.8rem);
+  font-size: clamp(1.2rem, 1.5vw, 1.35rem);
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -.055em;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.tech-tile__glyph svg {
+  display: block;
+  width: 23px;
+  height: 23px;
 }
 
 .tech-tile__label {
   color: #bccce5;
-  font-size: .7rem;
-  line-height: 1.25;
-}
-
-/* Contact */
-.contact-section {
-  background: radial-gradient(ellipse at 82% 8%, rgba(21, 81, 167, .21), transparent 50%), #061021;
-}
-
-.contact-section h2 {
-  max-width: 780px;
-  margin: 0 0 16px;
-  font-size: clamp(2.7rem, 4.2vw, 4.8rem);
-}
-
-.contact-heading > p:not(.eyebrow) {
-  max-width: 700px;
-  margin-bottom: 0;
-  font-size: 1.04rem;
-}
-
-.contact-methods {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 17px;
-  margin-top: 35px;
-}
-
-.contact-method {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  min-height: 247px;
-  padding: 24px;
-  border: 1px solid rgba(91, 152, 237, .27);
-  border-radius: 14px;
-  background: linear-gradient(145deg, rgba(12, 31, 58, .94), rgba(4, 16, 34, .95));
-  box-shadow: inset 0 1px rgba(165, 198, 245, .08);
-  transition: transform .25s ease, border-color .25s ease;
-}
-
-.contact-method:hover {
-  transform: translateY(-3px);
-  border-color: rgba(90, 161, 255, .6);
-}
-
-.contact-method__icon {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  margin-bottom: 20px;
-  border: 1px solid rgba(92, 164, 255, .5);
-  border-radius: 10px;
-  background: linear-gradient(140deg, #1479e8, #1d42a8);
-  color: white;
-  box-shadow: 0 5px 19px rgba(30, 105, 226, .26);
-}
-
-.contact-method--whatsapp .contact-method__icon {
-  border-color: rgba(70, 213, 159, .4);
-  background: linear-gradient(140deg, #0abf86, #087b77);
-  box-shadow: 0 5px 19px rgba(10, 184, 139, .18);
-}
-
-.contact-method h3 {
-  margin: 0 0 5px;
-  color: #f5f9ff;
-  font-size: 1.08rem;
-  line-height: 1.2;
-}
-
-.contact-method__detail,
-.contact-method__caption {
-  margin: 0;
-  color: #aabed9;
-  font-size: .82rem;
-  line-height: 1.32;
-  overflow-wrap: anywhere;
-}
-
-.contact-method__detail {
-  color: #e1ebfa;
-}
-
-.contact-method__actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: auto;
-  padding-top: 20px;
-}
-
-.contact-method__actions .button,
-.contact-method__actions button {
-  min-height: 38px;
-  padding-inline: 13px;
-  font-size: .75rem;
-}
-
-.contact-method__actions button {
-  border: 1px solid rgba(109, 164, 238, .38);
-  border-radius: 9px;
-  background: rgba(9, 24, 48, .75);
-  color: #edf5ff;
-  cursor: pointer;
-}
-
-.contact-method__actions button:hover {
-  border-color: #76b2ff;
-  background: rgba(27, 70, 138, .52);
-}
-
-[data-copy-status] {
-  display: block;
-  color: #9fceff;
-  font-size: .73rem;
+  font-size: .72rem;
+  line-height: 1.28;
 }
 
 /* Final invitation */
@@ -915,6 +810,97 @@ a.button:hover {
 
 .case-final-cta {
   min-height: 315px;
+}
+
+/* Compact contact links inside the home invitation */
+.contact-cta .shell {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr);
+}
+
+.contact-cta__links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 29px;
+}
+
+.contact-cta__link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  min-height: 82px;
+  padding: 11px 12px;
+  border: 1px solid rgba(91, 152, 237, .35);
+  border-radius: 13px;
+  background: linear-gradient(145deg, rgba(12, 31, 58, .88), rgba(4, 16, 34, .9));
+  box-shadow: inset 0 1px rgba(165, 198, 245, .08);
+  transition: transform .22s ease, border-color .22s ease, background .22s ease;
+}
+
+.contact-cta__link:hover {
+  transform: translateY(-2px);
+  border-color: rgba(90, 161, 255, .72);
+  background: linear-gradient(145deg, rgba(17, 44, 82, .94), rgba(6, 23, 46, .94));
+}
+
+.contact-cta__icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(92, 164, 255, .5);
+  border-radius: 10px;
+  background: linear-gradient(140deg, #1479e8, #1d42a8);
+  box-shadow: 0 5px 19px rgba(30, 105, 226, .18);
+  color: white;
+}
+
+.contact-cta__link--whatsapp .contact-cta__icon {
+  border-color: rgba(70, 213, 159, .4);
+  background: linear-gradient(140deg, #0abf86, #087b77);
+}
+
+.contact-cta__link--instagram .contact-cta__icon {
+  border-color: rgba(237, 120, 206, .45);
+  background: linear-gradient(135deg, #673ad4, #ca258a 65%, #ee922f);
+}
+
+.contact-cta__label {
+  display: block;
+  min-width: 0;
+}
+
+.contact-cta__label strong,
+.contact-cta__label small {
+  display: block;
+  line-height: 1.28;
+}
+
+.contact-cta__label strong {
+  color: #f4f8ff;
+  font-size: .86rem;
+}
+
+.contact-cta__label small {
+  margin-top: 3px;
+  color: #b3c5df;
+  font-size: .72rem;
+  overflow-wrap: anywhere;
+}
+
+.contact-cta__arrow {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: #a9ceff;
+  transition: transform .22s ease;
+}
+
+.contact-cta__link:hover .contact-cta__arrow {
+  transform: translateX(3px);
 }
 
 /* Footer */
@@ -1315,12 +1301,6 @@ a.button:hover {
 }
 
 /* Responsive layout */
-@media (max-width: 1200px) {
-  .contact-methods {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
 @media (max-width: 1200px) and (min-width: 801px) {
   .hero-showcase::after,
   .case-showcase::after {
@@ -1364,6 +1344,18 @@ a.button:hover {
 }
 
 @media (max-width: 800px) {
+  .contact-cta .shell {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .contact-cta .final-cta__art {
+    width: min(58%, 330px);
+    justify-self: center;
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
   .site-header {
     height: 66px;
     margin-bottom: -66px;
@@ -1376,6 +1368,34 @@ a.button:hover {
   .desktop-nav,
   .header-actions {
     display: none;
+  }
+
+  .header-mobile-actions,
+  .mobile-social {
+    display: flex;
+    align-items: center;
+  }
+
+  .header-mobile-actions {
+    justify-self: end;
+    gap: 6px;
+  }
+
+  .mobile-social {
+    gap: 6px;
+  }
+
+  .mobile-social .icon-link {
+    width: 39px;
+    height: 39px;
+    border-radius: 9px;
+    transition: color .2s ease, background .2s ease;
+  }
+
+  .mobile-social .icon-link:hover,
+  .mobile-social .icon-link:focus-visible {
+    color: #79baff;
+    background: rgba(44, 105, 201, .12);
   }
 
   .menu-toggle {
@@ -1409,20 +1429,6 @@ a.button:hover {
   .mobile-menu a {
     padding: 10px 8px;
     color: #e9f1ff;
-  }
-
-  .mobile-menu__social {
-    display: flex;
-    gap: 20px;
-    border-top: 1px solid rgba(111, 165, 241, .2);
-    margin-top: 7px;
-    padding-top: 7px;
-  }
-
-  .mobile-menu__social a {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
   }
 
   .mobile-menu .mobile-menu__cta {
@@ -1545,6 +1551,12 @@ a.button:hover {
   }
 }
 
+@media (max-width: 600px) {
+  .contact-cta__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 550px) {
   :root {
     --section-space: 67px;
@@ -1631,7 +1643,6 @@ a.button:hover {
   }
 
   .about-copy h2,
-  .contact-section h2,
   .final-cta__copy h2 {
     font-size: clamp(2.25rem, 8vw, 3.15rem);
   }
@@ -1663,43 +1674,25 @@ a.button:hover {
 
   .tech-stack {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    gap: 9px;
   }
 
   .tech-tile {
-    min-height: 82px;
-    padding: 9px 5px;
+    min-height: 80px;
+    padding: 8px 5px;
   }
 
   .tech-tile__glyph {
-    font-size: 1.13rem;
+    font-size: 1.18rem;
+  }
+
+  .tech-tile__glyph svg {
+    width: 21px;
+    height: 21px;
   }
 
   .tech-tile__label {
     font-size: .68rem;
-  }
-
-  .contact-heading > p:not(.eyebrow) {
-    font-size: .92rem;
-  }
-
-  .contact-methods {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin-top: 27px;
-  }
-
-  .contact-method {
-    min-height: 0;
-    padding: 20px;
-  }
-
-  .contact-method__icon {
-    margin-bottom: 13px;
-  }
-
-  .contact-method__actions {
-    padding-top: 16px;
   }
 
   .final-cta .shell {
@@ -1716,6 +1709,45 @@ a.button:hover {
     justify-self: center;
     margin-top: -30px;
     margin-bottom: 12px;
+  }
+
+  .contact-cta .final-cta__art {
+    width: min(74%, 300px);
+  }
+
+  .contact-cta__links {
+    gap: 9px;
+    margin-top: 24px;
+  }
+
+  .contact-cta__link {
+    gap: 7px;
+    min-height: 86px;
+    padding: 10px;
+  }
+
+  .contact-cta__icon {
+    flex-basis: 33px;
+    width: 33px;
+    height: 33px;
+  }
+
+  .contact-cta__icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .contact-cta__label strong {
+    font-size: .78rem;
+  }
+
+  .contact-cta__label small {
+    font-size: .68rem;
+  }
+
+  .contact-cta__arrow svg {
+    width: 15px;
+    height: 15px;
   }
 
   .footer {
@@ -1842,6 +1874,16 @@ a.button:hover {
   }
 }
 
+@media (max-width: 375px) {
+  .contact-cta__links {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-cta__link {
+    min-height: 72px;
+  }
+}
+
 @media (max-width: 360px) {
   .shell {
     width: calc(100% - 30px);
@@ -1861,6 +1903,27 @@ a.button:hover {
 
   .highlight-item small {
     font-size: .61rem;
+  }
+
+  .tech-stack {
+    gap: 7px;
+  }
+
+  .tech-tile {
+    padding-inline: 3px;
+  }
+
+  .tech-tile__glyph {
+    font-size: 1.08rem;
+  }
+
+  .tech-tile__glyph svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tech-tile__label {
+    font-size: .64rem;
   }
 }
 
