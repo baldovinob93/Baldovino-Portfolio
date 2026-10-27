@@ -648,81 +648,33 @@ a.button:hover {
   font-size: .79rem;
 }
 
-/* About and verified technologies */
+/* About */
 .about-section {
-  background: radial-gradient(ellipse at 80% 55%, rgba(19, 74, 153, .21), transparent 50%), #040d1a;
+  padding-block: clamp(90px, 9vw, 140px);
+  background: radial-gradient(ellipse at 80% 55%, rgba(19, 74, 153, .08), transparent 50%), #040d1a;
 }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, .92fr);
-  align-items: center;
-  gap: clamp(35px, 7vw, 120px);
+.about-copy {
+  max-width: 860px;
+}
+
+.about-copy .eyebrow {
+  margin-bottom: 28px;
 }
 
 .about-copy h2 {
-  max-width: 650px;
-  margin-bottom: 18px;
+  max-width: clamp(550px, 65vw, 760px);
+  margin-bottom: 28px;
   font-size: clamp(2.4rem, 3.6vw, 4.1rem);
 }
 
 .about-copy p:not(.eyebrow) {
-  max-width: 560px;
-  margin-bottom: 13px;
-}
-
-.tech-stack {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  max-width: 480px;
-  width: 100%;
-  justify-self: end;
+  max-width: 760px;
   margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
-.tech-tile {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  min-width: 0;
-  min-height: 84px;
-  padding: 9px 8px;
-  border: 1px solid rgba(87, 151, 242, .2);
-  border-radius: 11px;
-  background: linear-gradient(148deg, rgba(14, 31, 58, .62), rgba(5, 16, 34, .56));
-  color: #e5efff;
-  text-align: center;
-  transition: transform .2s ease, border-color .2s ease;
-}
-
-.tech-tile:hover {
-  transform: translateY(-2px);
-  border-color: rgba(95, 166, 255, .42);
-}
-
-.tech-tile__glyph {
-  color: #77b7ff;
-  font-size: clamp(1.2rem, 1.5vw, 1.35rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -.04em;
-}
-
-.tech-tile__glyph svg {
-  display: block;
-  width: 23px;
-  height: 23px;
-}
-
-.tech-tile__label {
-  color: #bccce5;
-  font-size: .72rem;
-  line-height: 1.28;
+.about-copy p:not(.eyebrow) + p {
+  margin-top: 21px;
 }
 
 /* Final invitation */
@@ -1519,15 +1471,6 @@ a.button:hover {
     padding: 23px 25px 25px;
   }
 
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 34px;
-  }
-
-  .tech-stack {
-    justify-self: start;
-  }
-
   .case-nav {
     top: 66px;
   }
@@ -1642,7 +1585,6 @@ a.button:hover {
     display: block;
   }
 
-  .about-copy h2,
   .final-cta__copy h2 {
     font-size: clamp(2.25rem, 8vw, 3.15rem);
   }
@@ -1668,31 +1610,12 @@ a.button:hover {
     font-size: .87rem;
   }
 
+  .about-copy h2 {
+    font-size: clamp(2rem, 8.8vw, 2.4rem);
+  }
+
   .about-copy p:not(.eyebrow) {
     font-size: .92rem;
-  }
-
-  .tech-stack {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 9px;
-  }
-
-  .tech-tile {
-    min-height: 80px;
-    padding: 8px 5px;
-  }
-
-  .tech-tile__glyph {
-    font-size: 1.18rem;
-  }
-
-  .tech-tile__glyph svg {
-    width: 21px;
-    height: 21px;
-  }
-
-  .tech-tile__label {
-    font-size: .68rem;
   }
 
   .final-cta .shell {
@@ -1903,27 +1826,6 @@ a.button:hover {
 
   .highlight-item small {
     font-size: .61rem;
-  }
-
-  .tech-stack {
-    gap: 7px;
-  }
-
-  .tech-tile {
-    padding-inline: 3px;
-  }
-
-  .tech-tile__glyph {
-    font-size: 1.08rem;
-  }
-
-  .tech-tile__glyph svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .tech-tile__label {
-    font-size: .64rem;
   }
 }
 

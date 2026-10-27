@@ -118,16 +118,10 @@ function home() {
     ['database', 'Soluciones escalables', 'Arquitectura clara'],
     ['spark', 'Enfoque en producto', 'Experiencia útil']
   ];
-  const technologies = [
-    ['C#', 'C#', 'csharp'], ['.NET', '.NET', 'dotnet'], ['ASP.NET Core', 'ASP', 'aspnet'],
-    ['Entity Framework Core', 'EF', 'ef'], ['SQL Server', 'SQL', 'sql'], ['JavaScript', 'JS', 'javascript'],
-    ['Bootstrap', 'B5', 'bootstrap'], ['Git', 'Git', 'git'], ['GitHub', icon('github', 31), 'github']
-  ];
-  const techTiles = technologies.map(([label, mark, name]) => `<li class="tech-tile tech-tile--${name}"><span class="tech-tile__glyph" aria-hidden="true">${name === 'github' ? mark : esc(mark)}</span><span class="tech-tile__label">${esc(label)}</span></li>`).join('');
   const content = `
     <section class="hero atmosphere" id="inicio"><div class="hero-showcase">${image('/assets/nib/nib-showcase.png', 'N|B Indumentary en notebook y celular', 'hero-showcase__image', true)}</div><div class="shell hero-grid"><div class="hero-copy reveal"><p class="eyebrow">DESARROLLADOR FULL STACK .NET</p><h1>Construyendo<br>soluciones<br>web <em>reales.</em></h1><p class="lead">Aplicaciones modernas, escalables y enfocadas en resolver problemas del mundo real.</p>${buttonRow(button('Ver proyectos', '#proyectos'), button('Contactame', '#contacto', 'outline'))}</div></div><div class="shell hero-highlights"><ul>${capabilities.map(([glyph, title, detail]) => `<li class="highlight-item"><span class="highlight-item__icon" aria-hidden="true">${icon(glyph, 21)}</span><span><strong>${esc(title)}</strong><small>${esc(detail)}</small></span></li>`).join('')}</ul></div></section>
     <section class="section projects-section" id="proyectos"><div class="shell"><div class="section-heading"><div><p class="eyebrow">PROYECTOS DESTACADOS</p><h2>Aplicaciones reales, con impacto en el mundo real.</h2></div></div><div class="projects-grid" data-project-count="${projects.length}">${cards}</div></div></section>
-    <section class="section about-section" id="sobre-mi"><div class="shell about-grid"><div class="about-copy reveal"><p class="eyebrow">SOBRE MÍ</p><h2>Desarrollo soluciones<br>que generan <em>valor.</em></h2><p>Soy desarrollador Full Stack .NET, con foco en crear soluciones web modernas, funcionales y bien diseñadas.</p><p>Me interesa transformar ideas en productos reales que las personas puedan usar y que realmente funcionen.</p></div><ul class="tech-stack reveal" aria-label="Tecnologías utilizadas">${techTiles}</ul></div></section>
+    <section class="section about-section" id="sobre-mi"><div class="shell"><div class="about-copy reveal"><p class="eyebrow">SOBRE MÍ</p><h2>Desarrollo soluciones que generan <em>valor.</em></h2><p>Soy desarrollador Full Stack .NET, con foco en crear soluciones web modernas, funcionales y bien diseñadas.</p><p>Me interesa transformar ideas en productos reales que las personas puedan usar y que realmente funcionen.</p></div></div></section>
     ${homeContact()}`;
   return page({ title: `${site.name} | Full Stack .NET Developer`, description: site.description, content, onHome: true });
 }
@@ -149,7 +143,7 @@ function caseStudy(project) {
     ? 'E-commerce de indumentaria desarrollado con ASP.NET Core MVC, con una experiencia completa de compra y gestión.'
     : project.summary;
   const heroActions = buttonRow(
-    button('Ver proyecto', '#paso-01'),
+    !isNib && button('Ver proyecto', '#paso-01'),
     button('Ver código', safeUrl(project.githubUrl), 'outline', 'github')
   );
   const heroVisual = isNib ? '/assets/nib/nib-showcase.png' : project.hero.desktop;
